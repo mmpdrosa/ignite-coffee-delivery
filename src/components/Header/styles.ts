@@ -8,7 +8,7 @@ export const HeaderContainer = styled.header`
   padding: 2rem 0;
 `
 
-export const ActionsContainer = styled.div`
+export const Actions = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;

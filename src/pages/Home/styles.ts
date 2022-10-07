@@ -1,6 +1,16 @@
 import styled from 'styled-components'
 
-export const IntroductionContainer = styled.div`
+export const HomeContainer = styled.div`
+  h1 {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 2rem;
+
+    color: ${(props) => props.theme['base-subtitle']};
+  }
+`
+
+export const Introduction = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,4 +91,12 @@ export const Item = styled.div`
 
     color: ${(props) => props.theme.background};
   }
+`
+export const CoffeeList = styled.main`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 2.5rem;
+  column-gap: 2rem;
+
+  padding: 3.375rem 0;
 `
