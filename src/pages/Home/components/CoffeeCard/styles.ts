@@ -105,32 +105,11 @@ export const Actions = styled.div`
 
     color: ${(props) => props.theme['base-card']};
     background: ${(props) => props.theme['purple-dark']};
-  }
-`
 
-export const CoffeeCounter = styled.div`
-  display: flex;
-  align-items: center;
+    transition: 0.2s background-color;
 
-  border-radius: 6px;
-  background: ${(props) => props.theme['base-button']};
-
-  button {
-    font-size: 1.5rem;
-    background: none;
-    border: 0;
-    width: 1.875rem;
-    height: 2.375rem;
-
-    color: ${(props) => props.theme['purple-regular']};
-
-    cursor: pointer;
-  }
-
-  span {
-    display: inline-block;
-    text-align: center;
-
-    color: ${(props) => props.theme['base-title']};
+    &:hover {
+      background: ${(props) => props.theme['purple-regular']};
+    }
   }
 `

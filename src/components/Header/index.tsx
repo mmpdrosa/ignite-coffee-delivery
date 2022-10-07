@@ -7,7 +7,9 @@ import logoCoffeeDelivery from '../../assets/logo-coffee-delivery.svg'
 export function Header() {
   return (
     <HeaderContainer>
-      <img src={logoCoffeeDelivery} alt="" />
+      <NavLink to="/">
+        <img src={logoCoffeeDelivery} alt="" />
+      </NavLink>
       <Actions>
         <div>
           <MapPin size={22} weight="fill" />

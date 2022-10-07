@@ -1,13 +1,9 @@
 import { ShoppingCart } from 'phosphor-react'
 import { NavLink } from 'react-router-dom'
 
-import {
-  Actions,
-  Buy,
-  CoffeeCounter,
-  CoffeeCardContainer,
-  Tags,
-} from './styles'
+import { Counter } from '../../../../components/Counter'
+
+import { Actions, Buy, CoffeeCardContainer, Tags } from './styles'
 
 interface CoffeeCardProps {
   imageUrl: string
@@ -33,11 +29,8 @@ export function CoffeeCard({
       <Buy>
         <p>{price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
         <Actions>
-          <CoffeeCounter>
-            <button>-</button>
-            <span>1</span>
-            <button>+</button>
-          </CoffeeCounter>
+          <Counter />
+
           <NavLink to="/checkout">
             <ShoppingCart size={22} weight="fill" />
           </NavLink>
