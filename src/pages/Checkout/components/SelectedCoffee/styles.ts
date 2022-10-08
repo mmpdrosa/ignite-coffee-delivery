@@ -39,9 +39,7 @@ export const Actions = styled.div`
   display: flex;
   gap: 0.5rem;
 
-  button {
-    height: 2rem;
-  }
+  height: 2rem;
 
   & > button {
     display: flex;

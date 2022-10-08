@@ -8,17 +8,21 @@ export const CounterContainer = styled.div`
   background: ${(props) => props.theme['base-button']};
 
   button {
-    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 0.875rem;
     background: none;
     border: 0;
     width: 1.875rem;
-    height: 2.375rem;
+    height: 100%;
 
     color: ${(props) => props.theme['purple-regular']};
 
     cursor: pointer;
 
-    &:hover {
+    &:hover svg {
       color: ${(props) => props.theme['purple-dark']};
     }
   }

@@ -89,10 +89,10 @@ export const Buy = styled.div`
 
 export const Actions = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
 
   gap: 0.5rem;
+
+  height: 2.375rem;
 
   a {
     width: 2.375rem;

@@ -12,7 +12,7 @@ import {
   Title,
 } from './styles'
 
-import coffees from '../../coffees.json'
+import coffeesInfo from '../../coffees.json'
 
 export function Home() {
   return (
@@ -57,15 +57,15 @@ export function Home() {
       </Introduction>
       <h1>Nossos cafés</h1>
       <CoffeeList>
-        {coffees &&
-          coffees.map((coffee) => (
+        {coffeesInfo &&
+          coffeesInfo.map((coffeeInfo) => (
             <CoffeeCard
-              key={coffee.name}
-              description={coffee.description}
-              imageUrl={coffee.imageUrl}
-              name={coffee.name}
-              price={coffee.price}
-              tags={coffee.tags}
+              key={coffeeInfo.name}
+              description={coffeeInfo.description}
+              imageUrl={coffeeInfo.imageUrl}
+              name={coffeeInfo.name}
+              price={coffeeInfo.price}
+              tags={coffeeInfo.tags}
             />
           ))}
       </CoffeeList>

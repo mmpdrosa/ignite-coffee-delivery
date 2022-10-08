@@ -5,6 +5,8 @@ import {
   MapPinLine,
   Money,
 } from 'phosphor-react'
+import { useContext } from 'react'
+import { OrderContext } from '../../contexts/OrderContext'
 
 import { SelectedCoffee } from './components/SelectedCoffee'
 
@@ -23,7 +25,28 @@ import {
   StreetInput,
 } from './styles'
 
+import coffeeList from '../../coffees.json'
+
 export function Checkout() {
+  const { coffeesInCart } = useContext(OrderContext)
+
+  const coffeesInCartInfo = coffeesInCart.map((coffeeInCart) => {
+    const coffeeInCartInfo = coffeeList.find(
+      (coffeeInfo) => coffeeInCart.id === coffeeInfo.name,
+    )
+
+    return {
+      ...coffeeInCart,
+      ...coffeeInCartInfo,
+    }
+  })
+
+  const orderTotal = coffeesInCartInfo.reduce(
+    (total, coffeeInCartInfo) =>
+      (total += coffeeInCartInfo.amount * coffeeInCartInfo.price),
+    0,
+  )
+
   return (
     <CheckoutContainer>
       <form action="">
@@ -59,18 +82,18 @@ export function Checkout() {
               </div>
             </header>
             <div>
-              <button>
-                <CreditCard weight="light" />
+              <button type="button">
+                <CreditCard />
                 CARTÃO DE CRÉDITO
               </button>
 
-              <button>
-                <Bank weight="light" />
+              <button type="button">
+                <Bank />
                 CARTÃO DE DÉBITO
               </button>
 
-              <button>
-                <Money weight="light" />
+              <button type="button">
+                <Money />
                 DINHEIRO
               </button>
             </div>
@@ -79,12 +102,23 @@ export function Checkout() {
         <div>
           <h1>Cafés selecionados</h1>
           <Order>
-            <SelectedCoffee />
-            <SelectedCoffee />
+            {coffeesInCartInfo &&
+              coffeesInCartInfo.map((coffeeInCartInfo) => (
+                <SelectedCoffee
+                  key={coffeeInCartInfo.id}
+                  imageUrl={coffeeInCartInfo.imageUrl}
+                  name={coffeeInCartInfo.name}
+                  price={coffeeInCartInfo.price}
+                />
+              ))}
             <Prices>
               <div>
                 <span>Total de itens</span>
-                <span>R$ 29,70</span>
+                <span>
+                  {`R$ ${orderTotal.toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                  })}`}
+                </span>
               </div>
               <div>
                 <span>Entrega</span>
@@ -92,11 +126,13 @@ export function Checkout() {
               </div>
               <div>
                 <strong>Total</strong>
-                <strong>R$ 33,20</strong>
+                <strong>{`R$ ${(orderTotal + 3.5).toLocaleString('pt-BR', {
+                  minimumFractionDigits: 2,
+                })}`}</strong>
               </div>
             </Prices>
 
-            <button>CONFIRMAR PEDIDO</button>
+            <button type="submit">CONFIRMAR PEDIDO</button>
           </Order>
         </div>
       </form>

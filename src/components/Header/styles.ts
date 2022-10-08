@@ -45,5 +45,28 @@ export const Actions = styled.div`
 
     color: ${(props) => props.theme['yellow-dark']};
     background: ${(props) => props.theme['yellow-light']};
+
+    position: relative;
+
+    span {
+      width: 1.25rem;
+      height: 1.25rem;
+
+      position: absolute;
+      top: -8px;
+      right: -8.35px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-size: 0.75rem;
+      font-weight: 700;
+
+      border-radius: 999px;
+
+      background: ${(props) => props.theme['yellow-dark']};
+      color: ${(props) => props.theme.white};
+    }
   }
 `

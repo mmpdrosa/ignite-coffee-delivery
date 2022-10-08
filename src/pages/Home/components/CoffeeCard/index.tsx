@@ -29,7 +29,7 @@ export function CoffeeCard({
       <Buy>
         <p>{price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
         <Actions>
-          <Counter />
+          <Counter coffeeId={name} />
 
           <NavLink to="/checkout">
             <ShoppingCart size={22} weight="fill" />
