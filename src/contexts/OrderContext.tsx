@@ -6,11 +6,25 @@ interface Coffee {
   amount: number
 }
 
+interface Address {
+  zip: string
+  street: string
+  number: string
+  complement: string
+  district: string
+  city: string
+  federativeUnit: string
+}
+
 interface OrderContextType {
   coffeesInCart: Coffee[]
+  payment: string
+  deliveryAddress: Address
   incrementCoffeeAmountInCart: (id: string) => void
   decrementCoffeeAmountInCart: (id: string) => void
   removeCoffeeFromCart: (id: string) => void
+  changePayment: (form: string) => void
+  addDeliveryAddress: (data: Address) => void
 }
 
 interface OrderContextProviderProps {
@@ -21,6 +35,14 @@ export const OrderContext = createContext({} as OrderContextType)
 
 export function OrderContextProvider({ children }: OrderContextProviderProps) {
   const [coffeesInCart, setCoffeesInCart] = useState<Coffee[]>([])
+
+  const [payment, setPayment] = useState('')
+
+  const [deliveryAddress, setDeliveryAddress] = useState({} as Address)
+
+  function changePayment(form: string) {
+    setPayment(form)
+  }
 
   function getCoffeeInCartIndexById(id: string) {
     return coffeesInCart.findIndex((coffeeInCart) => coffeeInCart.id === id)
@@ -64,13 +86,21 @@ export function OrderContextProvider({ children }: OrderContextProviderProps) {
     )
   }
 
+  function addDeliveryAddress(data: Address) {
+    setDeliveryAddress(data)
+  }
+
   return (
     <OrderContext.Provider
       value={{
         coffeesInCart,
+        payment,
+        deliveryAddress,
         incrementCoffeeAmountInCart,
         decrementCoffeeAmountInCart,
         removeCoffeeFromCart,
+        changePayment,
+        addDeliveryAddress,
       }}
     >
       {children}

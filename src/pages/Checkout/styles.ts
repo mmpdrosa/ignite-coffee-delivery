@@ -56,119 +56,6 @@ const BaseSection = styled.section`
   }
 `
 
-const BaseInput = styled.input`
-  font-size: 0.875rem;
-
-  height: 2.625rem;
-
-  padding: 0.75rem;
-
-  background: ${(props) => props.theme['base-input']};
-
-  border: 1px solid ${(props) => props.theme['base-button']};
-  border-radius: 4px;
-
-  &:focus,
-  &:not(:placeholder-shown) {
-    outline: transparent;
-    box-shadow: 0 0 0 1px ${(props) => props.theme['yellow-dark']};
-  }
-`
-
-export const CepInput = styled(BaseInput)`
-  grid-area: cep;
-`
-
-export const StreetInput = styled(BaseInput)`
-  grid-area: street;
-`
-
-export const HouseNumberInput = styled(BaseInput)`
-  grid-area: number;
-`
-
-export const ComplementInput = styled(BaseInput)`
-  grid-area: complement;
-`
-
-export const DistrictInput = styled(BaseInput)`
-  grid-area: district;
-`
-
-export const CityInput = styled(BaseInput)`
-  grid-area: city;
-`
-
-export const FederativeUnitInput = styled(BaseInput)`
-  grid-area: uf;
-`
-
-export const AddressForm = styled(BaseSection)`
-  gap: 2rem;
-  border-radius: 6px;
-
-  & > div {
-    display: grid;
-
-    grid-template-columns: 200px 1fr 60px;
-    grid-template-areas:
-      'cep . .'
-      'street street street'
-      'number complement complement'
-      'district city uf';
-
-    grid-row-gap: 1rem;
-    grid-column-gap: 0.75rem;
-  }
-
-  color: ${(props) => props.theme['yellow-dark']};
-`
-
-export const Payment = styled(BaseSection)`
-  gap: 2rem;
-  border-radius: 6px;
-
-  & > div {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 0.75rem;
-  }
-
-  button {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    gap: 0.75rem;
-    padding: 1rem;
-
-    background: ${(props) => props.theme['base-button']};
-
-    font-size: 0.75rem;
-
-    border: 0;
-    border-radius: 6px;
-
-    cursor: pointer;
-
-    transition: 0.2s background-color;
-
-    &:hover {
-      background: ${(props) => props.theme['base-hover']};
-    }
-
-    /* selecionado {
-      background: ${(props) => props.theme['purple-light']};
-      border: 1px solid ${(props) => props.theme['purple-regular']};
-    } */
-  }
-
-  svg {
-    color: ${(props) => props.theme['purple-regular']};
-    font-size: 1rem;
-  }
-`
-
 export const Order = styled(BaseSection)`
   border-radius: 6px 44px;
   gap: 2rem;
@@ -191,6 +78,11 @@ export const Order = styled(BaseSection)`
 
     &:hover {
       background: ${(props) => props.theme['yellow-dark']};
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
     }
   }
 `

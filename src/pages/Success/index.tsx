@@ -1,10 +1,14 @@
 import { CurrencyDollar, MapPin, Timer } from 'phosphor-react'
+import { useContext } from 'react'
 
 import success from '../../assets/success.svg'
+import { OrderContext } from '../../contexts/OrderContext'
 
 import { SuccessContainer, OrderInfo, Info, Icon } from './styles'
 
 export function Success() {
+  const { deliveryAddress, payment } = useContext(OrderContext)
+
   return (
     <SuccessContainer>
       <h1>Uhu! Pedido confirmado</h1>
@@ -17,9 +21,15 @@ export function Success() {
             </Icon>
             <Info>
               <span>
-                Entrega em <strong>Rua João Daniel Martinelli, 102</strong>
+                Entrega em{' '}
+                <strong>
+                  Rua {deliveryAddress.street}, {deliveryAddress.number}
+                </strong>
               </span>
-              <span>Ferrapos - Porto Alegre, RS</span>
+              <span>
+                {deliveryAddress.district} - {deliveryAddress.city},{' '}
+                {deliveryAddress.federativeUnit}
+              </span>
             </Info>
           </div>
           <div>
@@ -38,7 +48,7 @@ export function Success() {
             </Icon>
             <Info>
               <span>Pagamento na entrega</span>
-              <strong>Cartão de Crédito</strong>
+              <strong>{payment}</strong>
             </Info>
           </div>
         </OrderInfo>

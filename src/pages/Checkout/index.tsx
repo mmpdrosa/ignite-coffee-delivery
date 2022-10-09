@@ -1,43 +1,79 @@
-import {
-  Bank,
-  CreditCard,
-  CurrencyDollar,
-  MapPinLine,
-  Money,
-} from 'phosphor-react'
 import { useContext } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import * as zod from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useNavigate } from 'react-router-dom'
+
 import { OrderContext } from '../../contexts/OrderContext'
 
 import { SelectedCoffee } from './components/SelectedCoffee'
 
-import {
-  AddressForm,
-  CepInput,
-  CheckoutContainer,
-  CityInput,
-  ComplementInput,
-  DistrictInput,
-  FederativeUnitInput,
-  HouseNumberInput,
-  Order,
-  Payment,
-  Prices,
-  StreetInput,
-} from './styles'
+import { AddressForm } from './components/AddressForm'
+import { Payment } from './components/Payment'
 
-import coffeeList from '../../coffees.json'
+import { CheckoutContainer, Order, Prices } from './styles'
+
+import { coffeeList } from '../../coffeeList'
+
+const addressFormValidationSchema = zod.object({
+  zip: zod.string().min(1),
+  street: zod.string().min(1),
+  number: zod.string().min(1),
+  complement: zod.string().min(1),
+  district: zod.string().min(1),
+  city: zod.string().min(1),
+  federativeUnit: zod.string().min(1),
+})
+
+type addressFormData = zod.infer<typeof addressFormValidationSchema>
 
 export function Checkout() {
-  const { coffeesInCart } = useContext(OrderContext)
+  const { coffeesInCart, addDeliveryAddress, payment } =
+    useContext(OrderContext)
+
+  const navigate = useNavigate()
+
+  const addressForm = useForm<addressFormData>({
+    resolver: zodResolver(addressFormValidationSchema),
+    defaultValues: {
+      zip: '',
+      street: '',
+      number: '',
+      complement: '',
+      district: '',
+      city: '',
+      federativeUnit: '',
+    },
+  })
+
+  const { handleSubmit, reset } = addressForm
+
+  function handleConfirmOrder(data: addressFormData) {
+    addDeliveryAddress(data)
+
+    navigate('/success')
+
+    reset()
+  }
 
   const coffeesInCartInfo = coffeesInCart.map((coffeeInCart) => {
     const coffeeInCartInfo = coffeeList.find(
       (coffeeInfo) => coffeeInCart.id === coffeeInfo.name,
     )
 
+    if (!coffeeInCartInfo)
+      return {
+        ...coffeeInCart,
+        price: 0,
+        name: '',
+        imageUrl: '',
+      }
+
     return {
       ...coffeeInCart,
-      ...coffeeInCartInfo,
+      price: coffeeInCartInfo.price,
+      name: coffeeInCartInfo.name,
+      imageUrl: coffeeInCartInfo.imageUrl,
     }
   })
 
@@ -47,57 +83,17 @@ export function Checkout() {
     0,
   )
 
+  const isOrderIncomplete = coffeesInCart.length === 0 || payment === ''
+
   return (
     <CheckoutContainer>
-      <form action="">
+      <form onSubmit={handleSubmit(handleConfirmOrder)} action="">
         <div>
           <h1>Complete seu pedido</h1>
-          <AddressForm>
-            <header>
-              <MapPinLine size={22} />
-              <div>
-                <h2>Endereço de Entrega</h2>
-                <p>Informe o endereço onde deseja receber seu pedido</p>
-              </div>
-            </header>
-            <div>
-              <CepInput placeholder="CEP" />
-              <StreetInput placeholder="Rua" />
-              <HouseNumberInput placeholder="Número" />
-              <ComplementInput placeholder="Complemento" />
-              <DistrictInput placeholder="Bairro" />
-              <CityInput placeholder="Cidade" />
-              <FederativeUnitInput placeholder="UF" />
-            </div>
-          </AddressForm>
-          <Payment>
-            <header>
-              <CurrencyDollar size={22} weight="fill" />
-              <div>
-                <h2>Pagamento</h2>
-                <p>
-                  O pagamento é feito na entrega. Escolha a forma que deseja
-                  pagar
-                </p>
-              </div>
-            </header>
-            <div>
-              <button type="button">
-                <CreditCard />
-                CARTÃO DE CRÉDITO
-              </button>
-
-              <button type="button">
-                <Bank />
-                CARTÃO DE DÉBITO
-              </button>
-
-              <button type="button">
-                <Money />
-                DINHEIRO
-              </button>
-            </div>
-          </Payment>
+          <FormProvider {...addressForm}>
+            <AddressForm />
+          </FormProvider>
+          <Payment />
         </div>
         <div>
           <h1>Cafés selecionados</h1>
@@ -132,7 +128,9 @@ export function Checkout() {
               </div>
             </Prices>
 
-            <button type="submit">CONFIRMAR PEDIDO</button>
+            <button disabled={!!isOrderIncomplete} type="submit">
+              CONFIRMAR PEDIDO
+            </button>
           </Order>
         </div>
       </form>
